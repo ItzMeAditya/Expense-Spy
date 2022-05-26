@@ -21,10 +21,11 @@
   
   .expense-item h2 {
     color: #3a3a3a;
-    font-size: 1rem;
+    font-size: 1.7rem;
     flex: 1;
     margin: 0 1rem;
     color: white;
+    text-align: center;
   }
   
   .expense-item__price {
