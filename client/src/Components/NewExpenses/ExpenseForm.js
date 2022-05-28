@@ -19,16 +19,38 @@ const ExpenseForm = (props) => {
         setEnteredDate(event.target.value);
     }
 
-    const submitHandler = (event) => {
-        event.preventDefault();
+    const submitHandler = () => {
 
-        const expenseData = {
-            title : enteredTitle,
-            amount : enteredAmount,
-            date : new Date(enteredDate),
-        }
+        let url = 'http://localhost:2000/expenses';
 
-        props.onSaveExpenseData(expenseData);
+        fetch(url,{
+            method : 'POST',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({
+                title : enteredTitle,
+                amount : enteredAmount,
+                date : enteredDate
+            })
+        })
+        .then(res => {
+            if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Creating or editing a post failed!');
+            }
+            return res.json();
+        })
+        .then(resData => {
+            const data  = {
+                _id : resData.data._id,
+                title : resData.data.Title,
+                amount : resData.data.Amount,
+                date : new Date(resData.data.Date)
+            }
+            props.onSaveExpenseData(data);
+        })
+        .catch(err => console.log(err));
+
         setEnteredTitle('');
         setEnteredAmount('');
         setEnteredDate('');

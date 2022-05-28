@@ -6,14 +6,17 @@ import ExpensesFilter from "./ExpensesFilter";
 
 function Expenses(props) {
     const [selectedYear, setSelectedYear] = useState("2022");
-
     const selectYearHandler = (selectedYear) => {
         setSelectedYear(selectedYear);
     }
 
     const filteredExpenses = props.items.filter((expense)=>{
-        return expense.date.getFullYear().toString() === selectedYear;
+        return new Date(expense.Date).getFullYear().toString() === selectedYear;
     });
+
+    const deleteItem = (_id) => {
+        props.onDeleteItem(_id);
+    }
 
     return (
         <div className="expenses">
@@ -21,7 +24,7 @@ function Expenses(props) {
                 <ExpensesFilter selected={selectedYear} onSelectYear = {selectYearHandler} />
             </div>
             <ExpenseChart expenses = {filteredExpenses} />
-            <ExpenseLists items={filteredExpenses}/>
+            <ExpenseLists items={filteredExpenses} deleteItem={deleteItem}/>
         </div>
 
     );

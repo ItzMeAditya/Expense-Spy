@@ -31,11 +31,24 @@ import MainHeader from "./Components/MainHeader/MainHeader";
 },
 */
 
-const dummyExpenses = [];
-
 function App() {
-  const[expenses,setExpenses] = useState(dummyExpenses);
+  const[expenses,setExpenses] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  useEffect(()=>{
+    fetch('http://localhost:2000/expenses')
+    .then(res => {
+      if (res.status !== 200 && res.status !== 201) {
+        throw new Error('Creating or editing a post failed!');
+      }
+      return res.json();
+    })
+    .then(resData => {
+      setExpenses(resData.data);
+    })
+    .catch(err => console.log(err));
+  },[])
+
 
   useEffect(()=>{
     const userInfo = localStorage.getItem('loggedIn');
@@ -58,18 +71,30 @@ function App() {
     setIsLoggedIn(false);
   };
 
-  const addExpenseDataHandler = (expense) => {
-    setExpenses ((prevExpenses)=>{
-      return [expense, ...prevExpenses];
+  const deleteItemHandler = (_id) => {
+    fetch('http://localhost:2000/expenses/'+_id,{
+      method : 'DELETE'
+    })
+    .then(res => {
+      if (res.status !== 200 && res.status !== 201) {
+        throw new Error('Deleting a post failed!');
+      }
+      return res.json();
+    })
+    .then(() => {
+      setExpenses(expenses.filter(p => p._id !== _id));
+    })
+    .catch(err => {
+      console.log(err);
     });
-  };
+  }
 
   return (
     <React.Fragment>
       <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler}/>
       <main>
-        <NewExpense onAddExpenseData = {addExpenseDataHandler}/>
-        <Expenses items = {expenses} />
+        <NewExpense/>
+        <Expenses items = {expenses} onDeleteItem={deleteItemHandler}/>
       </main>
     </React.Fragment>
   );

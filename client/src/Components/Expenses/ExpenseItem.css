@@ -6,7 +6,7 @@
     padding: 0.5rem;
     margin: 1rem 0;
     border-radius: 12px;
-    background-color: #4b4b4b;
+    background-color: #ffffff;
   }
   
   .expense-item__description {
@@ -24,18 +24,33 @@
     font-size: 1.7rem;
     flex: 1;
     margin: 0 1rem;
-    color: white;
+    color: #640b8d;
     text-align: center;
   }
   
   .expense-item__price {
     font-size: 1rem;
     font-weight: bold;
-    color: white;
-    background-color: #40005d;
-    border: 1px solid white;
+    color: #640b8d;
     padding: 0.5rem;
     border-radius: 12px;
+  }
+
+  .expense-item button {
+    font: inherit;
+    cursor: pointer;
+    padding: 0.6rem 1rem;
+    border: 1px solid white;
+    background-color: #40005d;
+    color: white;
+    border-radius: 12px;
+    margin: 1rem;
+  }
+  
+  .expense-item button:hover,
+  .expense-item button:active {
+    background-color: #510674;
+    border-color: #510674;
   }
   
   @media (min-width: 580px) {

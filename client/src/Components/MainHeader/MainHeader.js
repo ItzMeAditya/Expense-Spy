@@ -6,8 +6,7 @@ import './MainHeader.css';
 const MainHeader = (props) => {
     return (
         <header className='main-header'>
-            <h1>Expense-Spy</h1>
-            <Navigation  isLogedIn={props.isAuthenticated} onLogout={props.onLogout}/>
+            <h2>Kharcha Tracker</h2>
         </header>
     )
 }
