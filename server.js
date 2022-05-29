@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const app = express();
 const expenseRoutes = require('./Routes/expenses');
@@ -26,11 +27,11 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message: message, success : false });
 });
 
+const PORT = process.env.PORT;
+const MONGO_URI = process.env.MONGO_URI;
 mongoose
-  .connect(
-    'mongodb+srv://Aditya:Adi11102002@cluster0.xp02h.mongodb.net/expenses?retryWrites=true'
-  )
+  .connect(MONGO_URI)
   .then(() => {
-    app.listen(2000, console.log('Connected'));
+    app.listen(PORT, console.log(`Connected to the Port ${PORT}`));
   })
   .catch(err => console.log(err));
